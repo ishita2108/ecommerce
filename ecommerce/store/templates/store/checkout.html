@@ -43,6 +43,7 @@
         <br>
         <div class="box-element hidden" id="payment-info">
             <small>Paypal Options</small>
+            <button class="btn btn-outline-success" id="make-payment">Make Payment</button>
         </div>
 
     </div>
@@ -74,4 +75,38 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var shipping = '{{order.shipping}}'
+
+    if(shipping == 'False'){
+        document.getElementById("shipping-info").innerHTML = ''
+    }
+
+    if (user != "AnonymousUser"){
+        document.getElementById('user-info').innerHTML = '{{order.customer.name}} - {{order.customer.email}}'
+    }
+
+    if(shipping == 'False' && user != "AnonymousUser"){
+        //Hide Entire form 
+        // document.getElementById('user-info').innerHTML = '{{order.customer.name}}'
+        document.getElementById('form-wrapper').innerHTML = '{{order.customer.name}} - {{order.customer.email}}'
+        document.getElementById('payment-info').classList.remove("hidden")
+    }
+
+    var form = document.getElementById('form').addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form Submitted...')
+        document.getElementById('form-button').classList.add("hidden")
+        document.getElementById('payment-info').classList.remove("hidden")
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e){
+        submitFormData()
+    })
+    function submitFormData(){
+        console.log("Payment Btn Clicked")
+    }
+
+</script>
 {% endblock content %}
