@@ -17,6 +17,9 @@ h6 {
   border-radius: 4px;
   padding: 10px;
 }
+#font {
+  font-family: "Permanent Marker", cursive;
+}
 
 .thumbnail {
   width: 100%;
