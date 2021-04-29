@@ -18,9 +18,13 @@
                         <h5>Total: <strong>${{order.get_cart_total|floatformat:2}}</strong></h5>
                     </th>
                     <th>
+                        <button data-order = "{{order.id}}" style="float:right; margin:5px;" id="clear-cart" class="btn btn-danger">Clear Cart</button>
                         <a style="float:right; margin:5px;" class="btn btn-success"
                             href="{% url 'checkout' %}">Checkout</a>
                     </th>
+                    <!-- <th>
+                       
+                    </th> -->
                 </tr>
             </table>
 
@@ -60,4 +64,34 @@
         </div>
     </div>
 </div>
+
+<script>
+  
+    document.getElementById("clear-cart").addEventListener('click', function(){
+        console.log("Cart is clear")
+        var orderId = this.dataset.order
+        console.log(orderId)
+        var url = '/clear_cart/'
+
+        
+            fetch(url,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({ 'orderId': orderId })
+            })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    console.log('data', data)
+            })
+            window.location.href = "{% url 'store' %}"
+        
+    
+    })
+
+</script>
 {% endblock content %}

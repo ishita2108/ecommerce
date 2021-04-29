@@ -60,12 +60,23 @@ def updateItem(request):
     if orderItem.quantity <= 0 :
         orderItem.delete()
 
-    return JsonResponse('Item was added', safe=False) 
+    return JsonResponse('Item was added', safe=False)  
     #By default, the JsonResponse's first parameter, data, should be a 
     # dict instance. To pass any other JSON-serializable object you must set 
     # the safe parameter to False. The safe boolean parameter defaults to True. 
     # If it's set to False, any object can be passed for serialization 
     # (otherwise only dict instances are allowed).
+
+def clearCart(request):
+    data = json.loads(request.body)
+    cart = json.loads(request.COOKIES['cart'])
+    # print(data)
+    orderId = data['orderId']
+
+    obj = Order.objects.get(id=orderId)
+    if request.user.is_authenticated:
+        obj.delete()
+    return JsonResponse('Clear cart', safe=False)
 
 def processOrder(request):
     transaction_id = datetime.datetime.now().timestamp()
